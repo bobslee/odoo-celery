@@ -4,8 +4,8 @@
     'name': 'Celery',
     'summary': 'Celery (Distributed Task Queue)',
     'category': 'Extra Tools',
-    'version': '0.16',
-    'description': """Execute Odoo methods by Celery worker tasks.""",
+    'version': '1.0',
+    'description': """Execute and control Odoo methods by Celery worker tasks.""",
     'author': 'Nova Code',
     'website': 'https://www.novacode.nl',
     'license': "LGPL-3",
@@ -13,7 +13,7 @@
         'mail'
     ],
     'external_dependencies': {
-        'python': ['celery'],
+        'python': ['celery', 'psutil'],
     },
     'data': [
         'data/ir_cron_data.xml',
@@ -21,6 +21,7 @@
         'security/celery_security.xml',
         'security/ir_model_access.xml',
         'wizard/celery_requeue_task_views.xml',
+        'wizard/celery_revoke_task_views.xml',
         'wizard/celery_cancel_task_views.xml',
         'wizard/celery_handle_jammed_task_views.xml',
         'report/celery_jammed_task_report_views.xml',
