@@ -159,8 +159,8 @@ class CeleryTask(models.Model):
     @api.multi
     def unlink(self):
         for task in self:
-            if task.state in [STATE_STARTED, STATE_RETRY]:
-                raise UserError(_('You cannot delete a running task.'))
+            if task.state in [STATE_PENDING, STATE_STARTED, STATE_RETRY, STATE_RETRYING]:
+                raise UserError(_('You cannot delete a scheduled or running task.'))
         super(CeleryTask, self).unlink()
 
     @api.model

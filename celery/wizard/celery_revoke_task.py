@@ -20,7 +20,6 @@ class RevokeTask(models.TransientModel):
             task_ids = context['active_ids']
             res = Task.search([
                 ('id', 'in', context['active_ids']),
-                ('pid', '!=', 0),
                 ('state', 'in', states_to_revoke)]).ids
         return res
 
