@@ -28,14 +28,12 @@ License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html) -->
             </field>
         </record>
 
-        <record id="action_requeue_celery_task" model="ir.actions.act_window">
-            <field name="name">Requeue Task</field>
-            <field name="res_model">celery.requeue.task</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="view_requeue_celery_task"/>
-            <field name="target">new</field>
-            <field name="binding_model_id" ref="celery.model_celery_task"/>
-        </record>
+        <act_window id="action_requeue_celery_task"
+            name="Requeue Task(s)"
+            src_model="celery.task"
+            res_model="celery.requeue.task"
+            view_type="form" view_mode="form"
+            key2="client_action_multi" target="new"
+            groups="base.group_erp_manager"/>
     </data>
 </odoo>

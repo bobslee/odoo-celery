@@ -2,12 +2,12 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html)
 
 import copy
+import xmlrpclib
 
 from celery import Celery
 from celery.contrib import rdb
 from celery.exceptions import TaskError, Retry, MaxRetriesExceededError
 from celery.utils.log import get_task_logger
-from xmlrpc import client as xmlrpc_client
 
 logger = get_task_logger(__name__)
 
@@ -36,7 +36,7 @@ app = Celery('odoo.addons.celery')
 
 @app.task(name='odoo.addons.celery.odoo.call_task', bind=True)
 def call_task(self, url, db, user_id, task_uuid, model, method, **kwargs):
-    odoo = xmlrpc_client.ServerProxy('{}/xmlrpc/2/object'.format(url))
+    odoo = xmlrpclib.ServerProxy('{}/xmlrpc/2/object'.format(url))
     args = [task_uuid, model, method]
     _kwargs = copy.deepcopy(kwargs)
 

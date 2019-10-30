@@ -11,12 +11,18 @@ import traceback
 import uuid
 
 from odoo import api, fields, models, registry, _
-from odoo.addons.base_sparse_field.models.fields import Serialized
 from odoo.exceptions import UserError
 from odoo.tools import config
 
-from ..fields import TaskSerialized
 from ..odoo import app, call_task, TASK_DEFAULT_QUEUE
+
+class TaskSerialized(fields.Field):
+    """ Serialized fields provide the storage for sparse fields. """
+    type = 'task_serialized'
+    column_type = ('text', 'text')
+
+    def convert_to_column(self, value, record, values=None):
+        return json.dumps(value)
 
 logger = logging.getLogger(__name__)
 
@@ -647,7 +653,7 @@ class CeleryTask(models.Model):
         return True
 
     @api.model_cr
-    def _register_hook(self):
+    def TODO_register_hook(self):
         """ stuff to do right after the registry is built """
 
         # Purge all tasks from workers
