@@ -106,8 +106,6 @@ class CeleryExample(models.Model):
 
     @api.model
     def task_queue_high(self, task_uuid, **kwargs):
-        time.sleep(10)
-        time.xsleepp(10)
         task = 'task_queue_high'
         example_id = kwargs.get('example_id')
         self.env['celery.example.line'].create({
