@@ -8,8 +8,8 @@ License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html) -->
             <field name="name">Revoke Task</field>
             <field name="model">celery.revoke.task</field>
             <field name="arch" type="xml">
-                <field name="odoo_workers" invisible="1"/>
                 <form string="Revoke Tasks">
+                    <field name="odoo_workers" invisible="1"/>
                     <group attrs="{'invisible': [('odoo_workers', '>', 0)]}" cols="1">
                         <h3 colspan="2">The "Revoking Tasks" (feature) requires an Odoo server with multiprocessing enabled.</h3>
                         <p colspan="2">More info: <a href="https://www.odoo.com/documentation/12.0/reference/cmdline.html#multiprocessing" target="_blank">Multiprocessing server</a></p>
