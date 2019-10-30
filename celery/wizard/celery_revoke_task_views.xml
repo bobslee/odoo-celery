@@ -26,7 +26,7 @@ License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html) -->
         </record>
 
         <act_window id="action_revoke_celery_task"
-            name="Abort / Revoke Task(s)"
+            name="Abort / Revoke Task"
             src_model="celery.task"
             res_model="celery.revoke.task"
             view_type="form" view_mode="form"
