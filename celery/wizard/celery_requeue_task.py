@@ -23,8 +23,9 @@ class RequeueTask(models.TransientModel):
         return res
 
     task_ids = fields.Many2many('celery.task', string='Tasks', default=_default_task_ids)
+    queue_id = fields.Many2one('celery.queue', string='Queue')
 
     @api.multi
     def action_requeue(self):
-        self.task_ids.action_requeue()
+        self.task_ids.action_requeue(queue=self.queue_id.name)
         return {'type': 'ir.actions.act_window_close'}

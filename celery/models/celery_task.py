@@ -83,7 +83,9 @@ class CeleryTask(models.Model):
     _order = 'id DESC'
 
     uuid = fields.Char(string='UUID', readonly=True, index=True, required=True)
-    queue = fields.Char(string='Queue', readonly=True, required=True, default=TASK_DEFAULT_QUEUE, index=True)
+    queue = fields.Char(
+        string='Queue', readonly=True, required=True, default=TASK_DEFAULT_QUEUE,
+        index=True, track_visibility='onchange')
     user_id = fields.Many2one('res.users', string='User ID', required=True, readonly=True)
     company_id = fields.Many2one('res.company', string='Company', index=True, readonly=True)
     model = fields.Char(string='Model', readonly=True)
@@ -419,7 +421,7 @@ class CeleryTask(models.Model):
             return ('OK', msg)
 
     @api.multi
-    def action_pending(self):
+    def action_pending(self, queue=False):
         vals = {
             'state': STATE_PENDING,
             'started_date': False,
@@ -430,6 +432,8 @@ class CeleryTask(models.Model):
             'result': False,
             'exc_info': False
         }
+        if queue:
+            vals['queue'] = queue
         for task in self:
             task.write(vals)
 
@@ -440,7 +444,7 @@ class CeleryTask(models.Model):
             return [STATE_PENDING, STATE_RETRY, STATE_FAILURE, STATE_CANCEL, STATE_REVOKE]
 
     @api.multi
-    def action_requeue(self, always=False):
+    def action_requeue(self, queue=False, always=False):
         user, password, sudo = _get_celery_user_config()
         user_id = self.env['res.users'].search_read([('login', '=', user)], fields=['id'], limit=1)
 
@@ -467,7 +471,7 @@ class CeleryTask(models.Model):
                     msg = '[Celery] Task %s - no process PID %s to terminate' % (task.uuid, task.pid)
                     logger.info(msg)
 
-            task.action_pending()
+            task.action_pending(queue)
             try:
                 _kwargs = json.loads(task.kwargs)
                 self._celery_call_task(task.user_id.id, task.uuid, task.model, task.method, _kwargs)

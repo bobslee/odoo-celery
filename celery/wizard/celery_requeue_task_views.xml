@@ -9,11 +9,19 @@ License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html) -->
             <field name="model">celery.requeue.task</field>
             <field name="arch" type="xml">
                 <form string="Requeue Tasks">
-                    <group string="The selected tasks will be requeued.">
+                    <div>
+                       <i class="fa fa-info-circle"/><span> Optionally send tasks to a different (selected) Queue below.</span>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="queue_id" edit="false" create="false" quick_create="false" options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"/>
+                        </group>
+                    </group>
+                    <group string="Tasks to requeue">
                         <field name="task_ids" nolabel="1"/>
                     </group>
                     <footer>
-                        <button name="action_requeue" string="Requeue" type="object" class="btn btn-primary"/>
+                        <button name="action_requeue" string="Requeue Task(s)" type="object" class="btn btn-primary"/>
                         <button string="Close" class="oe_link" special="cancel"/>
                     </footer>
                 </form>
